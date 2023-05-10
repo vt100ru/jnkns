@@ -1,0 +1,31 @@
+version: "3.9"
+services:
+  jenkins-blueocean:
+    build: .
+    ports:
+      - 8080:8080
+      - 50000:50000
+    volumes:
+      - type: volume
+        source: jenkins_home
+        target: /var/jenkins_home
+    networks:
+      - jenkins_network
+  socat:
+    image: alpine/socat
+    depends_on:
+      - jenkins-blueocean
+    ports:
+      - 127.0.0.1:2376:2375
+    volumes:
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+    networks:
+      - jenkins_network
+    command: tcp-listen:2375,fork,reuseaddr unix-socket:/var/run/docker.sock
+
+volumes:
+  jenkins_home:
+networks:
+  jenkins_network:
