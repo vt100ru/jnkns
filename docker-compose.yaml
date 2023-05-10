@@ -1,6 +1,6 @@
 version: "3.9"
 services:
-  jenkins-blueocean:
+  jenkins:
     build: .
     ports:
       - 8080:8080
@@ -14,7 +14,7 @@ services:
   socat:
     image: alpine/socat
     depends_on:
-      - jenkins-blueocean
+      - jenkins
     ports:
       - 127.0.0.1:2376:2375
     volumes:
