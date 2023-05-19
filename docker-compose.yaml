@@ -8,8 +8,8 @@ services:
       - 8080:8080
       - 50000:50000
     volumes:
-      - type: volume
-        source: jenkins_home
+      - type: bind
+        source: /jenkins
         target: /var/jenkins_home
     networks:
       - jenkins_network
